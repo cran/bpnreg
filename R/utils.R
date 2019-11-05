@@ -8,6 +8,8 @@
 #' @return TRUE, if the vector only contains 0 and 1, FALSE is the vector
 #'   contains other values.
 #'
+#' @keywords internal
+#'
 
 cat_check <- function(x){
   length(which(!x%in%c(0,1))) == 0
@@ -191,10 +193,18 @@ hpd_est_circ <- function(x){hmodeciC(x, 0.95)}
 #' @param data the dataframe used for analysis
 #' @param pred.II model equation for effects of component 2
 #'
+#'
 
 mmr <- function(pred.I, data, pred.II){
 
   theta <- model.frame(pred.I, data)[,1]
+
+  #Warning message if theta is not measures in radians:
+
+  if(max(theta) > 2*pi | min(theta) < 0){
+    cat("The circular outcome contains values that are out of range. \n")
+    cat("Please check that the circular outcome is measured in radians.")
+  }
 
   X_I   <- model.matrix(pred.I, data)
   X_II  <- model.matrix(pred.II, data)
@@ -215,6 +225,8 @@ mmr <- function(pred.I, data, pred.II){
 #' @param data the dataframe used for analysis
 #' @param pred.II model equation for effects of component 2
 #'
+#'
+#'
 
 mmme <- function(pred.I, data, pred.II){
 
@@ -223,17 +235,54 @@ mmme <- function(pred.I, data, pred.II){
   ran_form.I <- pred.I
   ran_form.II <- pred.II
 
+  nesting.I <- strsplit(sub("\\| ", "",
+                            sub("^[^\\|]*", "",
+                                attr(terms(reOnly(ran_form.I)), "term.labels"))), " ")[[1]]
+  nesting.II <- strsplit(sub("\\| ", "",
+                             sub("^[^\\|]*", "",
+                                 attr(terms(reOnly(ran_form.II)), "term.labels"))), " ")[[1]]
+
+  all_ran.I <- strsplit(attr(terms(reOnly(ran_form.I)), "term.labels"), " ")[[1]]
+  all_ran.II <- strsplit(attr(terms(reOnly(ran_form.II)), "term.labels"), " ")[[1]]
+
+  if(any(grepl("\\:", nesting.I)) | any(grepl("\\/", nesting.I)) | any(grepl("\\+", nesting.I)) |
+     any(grepl("\\:", nesting.II)) | any(grepl("\\/", nesting.I)) | any(grepl("\\+", nesting.I))){
+      stop("More than one nesting variable defined")
+  }
+
+  if(!all(sapply(data[, nesting.I], class) == "numeric") |
+     !all(sapply(data[, nesting.II], class) == "numeric")){
+    stop("Not all nesting variables are class numeric.")
+  }
+
+  for(i in nesting.I){
+    if(length(which(all_ran.I == i)) > 1){
+      stop("Nesting variables cannot be random slopes in the same model")
+    }
+  }
+
+  for(i in nesting.II){
+    if(length(which(all_ran.II == i)) > 1){
+      stop("Nesting variables cannot be random slopes in the same model")
+    }
+  }
+
+  RHSForm(fix_form.I) <- nobars(RHSForm(fix_form.I))
+  RHSForm(fix_form.II) <- nobars(RHSForm(fix_form.II))
   RHSForm(ran_form.I) <- subbars(RHSForm(reOnly(ran_form.I)))
   RHSForm(ran_form.II) <- subbars(RHSForm(reOnly(ran_form.II)))
 
   lab_ran.I <- attr(terms(ran_form.I), "term.labels")
   lab_ran.II <- attr(terms(ran_form.II), "term.labels")
+  lab_fix.I <- attr(terms(fix_form.I), "term.labels")
+  lab_fix.II <- attr(terms(fix_form.II), "term.labels")
+
+  if(length(which(lab_fix.I == nesting.I)) > 0 | length(which(lab_fix.II == nesting.II)) > 0){
+    stop("Nesting variables cannot be fixed effects in the same model")
+  }
 
   no_terms_ran.I <- length(lab_ran.I)
   no_terms_ran.II <- length(lab_ran.II)
-
-  RHSForm(fix_form.I) <- nobars(RHSForm(fix_form.I))
-  RHSForm(fix_form.II) <- nobars(RHSForm(fix_form.II))
 
   theta <- split(model.frame(ran_form.I, data)[,1], data[,lab_ran.I[no_terms_ran.I]])
 
@@ -245,11 +294,24 @@ mmme <- function(pred.I, data, pred.II){
   n_ran.I <- colnames(mm_ran.I)
   n_ran.II <- colnames(mm_ran.II)
 
-  mm_ran.I <- as.matrix(mm_ran.I[,-(no_terms_ran.I+1)])
-  colnames(mm_ran.I) <- n_ran.I[-(no_terms_ran.I+1)]
+  mm_ran.I <- as.matrix(mm_ran.I[,1:ncol(mm_ran.I)-1])
+  colnames(mm_ran.I) <- n_ran.I[1:ncol(mm_ran.I)]
 
-  mm_ran.II <- as.matrix(mm_ran.II[,-(no_terms_ran.II+1)])
-  colnames(mm_ran.II) <- n_ran.II[-(no_terms_ran.II+1)]
+  mm_ran.II <- as.matrix(mm_ran.II[,1:ncol(mm_ran.II)-1])
+  colnames(mm_ran.II) <- n_ran.II[1:ncol(mm_ran.II)]
+
+  if(!"(Intercept)" %in% colnames(mm_ran.I) | !"(Intercept)" %in% colnames(mm_ran.II)){
+
+    stop("No random intercept in the model")
+
+  }
+
+  if(!all(colnames(mm_ran.I) %in% colnames(mm.I)) |
+     !all(colnames(mm_ran.II) %in% colnames(mm.II))){
+
+    stop("Not all random effects have a corresponding fixed effect")
+
+  }
 
   X_I   <- split(model.matrix(fix_form.I, data), data[,lab_ran.I[no_terms_ran.I]])
   X_II  <- split(model.matrix(fix_form.II, data), data[,lab_ran.II[no_terms_ran.II]])
@@ -257,7 +319,7 @@ mmme <- function(pred.I, data, pred.II){
   Z_I   <- split(model.matrix(ran_form.I, data)[,-(no_terms_ran.I + 1)], data[,lab_ran.I[no_terms_ran.I]])
   Z_II  <- split(model.matrix(ran_form.II, data)[, -(no_terms_ran.II + 1)], data[,lab_ran.II[no_terms_ran.II]])
 
-  N <- nrow(unique(data[,lab_ran.I[no_terms_ran.I]]))
+  N <- nrow(unique(data[,lab_ran.I[no_terms_ran.I], drop = FALSE]))
 
   ZtZ_I   <- list()
   ZtZ_II  <- list()
@@ -277,6 +339,13 @@ mmme <- function(pred.I, data, pred.II){
     ZtZ_II[[i]]   <- t((Z_II[[i]]))%*%(Z_II[[i]])
   }
 
+  #Warning message if theta is not measures in radians:
+
+  if(max(unlist(theta)) > 2*pi | min(unlist(theta)) < 0){
+    cat("The circular outcome contains values that are out of range. \n")
+    cat("Please check that the circular outcome is measured in radians.")
+  }
+
   list(XI = X_I, XII = X_II, ZI = Z_I, ZII = Z_II, N = N,
        no.Meas = no.Meas, ZtZI = ZtZ_I, ZtZII = ZtZ_II, theta = theta, R = R,
        pred.I = pred.I, pred.II = pred.II,
@@ -291,6 +360,8 @@ mmme <- function(pred.I, data, pred.II){
 #'
 #' @param output from the regression estimation function pnr()
 #' @param mm output from the function mmr()
+#'
+#' @keywords internal
 #'
 
 sumr <- function(output, mm){
@@ -836,6 +907,8 @@ sumr <- function(output, mm){
 #'
 #' @param output from a mixed-effects model
 #' @param mm output from the function mmme()
+#'
+#' @keywords internal
 #'
 
 summe <- function(output, mm){

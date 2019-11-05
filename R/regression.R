@@ -14,13 +14,15 @@
 #' @details Because the model is based on the projected normal distribution, a
 #'   model equation has to be given for two components. By default the equation
 #'   of the second component \code{pred.II} is set to be equal to that of the
-#'   first component. For more information about the projected normal
-#'   distribution see Presnell, Morrisson & Littell (1998).
+#'   first component. Note that the circular outcome needs to be measured in
+#'   radians on a scale from 0 to 2\eqn{\pi}. For more information about the
+#'   projected normal distribution see Presnell, Morrisson & Littell (1998).
 #'
 #'   A tutorial on how to use this function can be found in Cremers & Klugkist
-#'   (2017, working paper). More details on the sampling algorithm and
-#'   interpretation of the coefficients from the model can be found in Cremers,
-#'   Mulder & Klugkist (2018) and Cremers, Mainhard & Klugkist (in press).
+#'   (2018). More details on the sampling algorithm and interpretation of the
+#'   coefficients from the model can be found in Cremers, Mulder & Klugkist
+#'   (2018) and Cremers, Mainhard & Klugkist (2018). The uninformative priors
+#'   for the regression coefficients of the two components are set to N(0, 10000).
 #'
 #' @return A \code{bpnr} object, which can be further analyzed using the
 #'   associated functions \code{\link{traceplot.bpnr}}, \code{\link{BFc.bpnr}},
@@ -42,7 +44,7 @@
 #'   save all iterations (default).} \item{\code{burn-in}}{Burn-in time for the
 #'   MCMC sampler.} \item{\code{p1}}{Number of parameters predicting the first
 #'   component.} \item{\code{p2}}{Number of parameters predicting the second
-#'   component.} \item{\code{theta}}{The circular outcome vector.}
+#'   component.} \item{\code{theta}}{The circular outcome vector measured in radians.}
 #'   \item{\code{a.x}}{A matrix of posterior samples for \code{a.x} which
 #'   describes the location of the inflection point of the regression curve on
 #'   the axis of the predictor.} \item{\code{a.c}}{A matrix of posterior samples
@@ -79,11 +81,13 @@
 #'   interpretation of regression coefficients. British Journal of Mathematical
 #'   and Statistical Psychology, 71(1), 75-95.
 #'
-#' @source Cremers, J., Mainhard, M.T. & Klugkist, I. (in press). Assessing a
-#'   Bayesian Embedding Approach to Circular Regression Models. Methodology.
+#' @source Cremers, J., Mainhard, M.T. & Klugkist, I. (2018). Assessing a
+#'   Bayesian Embedding Approach to Circular Regression Models. Methodology, 14,
+#'   69-81.
 #'
-#' @source Cremers, J., & Klugkist, I. (2017). How to analyze circular data: A
-#'   tutorial for projected normal regression models. Under review.
+#' @source Cremers, J. & Klugkist, I. (2018). One direction? A tutorial for
+#'   circular data with examples in cognitive psychology. Frontiers in
+#'   Psychology: Cognitive Science.
 #'
 #' @source Presnell, B., Morrison, S.P. & Littell, R.C. (1998). Projected
 #'   multivariate linear models for directional data. Journal of the American
@@ -149,15 +153,17 @@ bpnr <- function(pred.I, data, pred.II = pred.I,
 #' @details Because the model is based on the projected normal distribution, a
 #'   model equation has to be given for the fixed and random effects of the two
 #'   components. By default the model equation of the second component
-#'   \code{pred.II} is set to be equal to that of the first component. For more
-#'   information about the projected normal distribution see Presnell, Morrisson
-#'   & Littell (1998).
+#'   \code{pred.II} is set to be equal to that of the first component. Note that
+#'   the circular outcome needs to be measured in radians on a scale from 0 to
+#'   2\eqn{\pi}. For more information about the projected normal distribution see
+#'   Presnell, Morrisson & Littell (1998).
 #'
 #'   A tutorial on how to use this function can be found in Cremers & Klugkist
-#'   (2017, working paper). More details on the sampling algorithm and
-#'   interpretation of the coefficients from the model can be found in
-#'   Nuñez-Antonio & Guttiérrez-Peña (2014) and Cremers & Klugkist (2017, working
-#'   paper).
+#'   (2018). More details on the sampling algorithm and interpretation of the
+#'   coefficients from the model can be found in Nuñez-Antonio & Guttiérrez-Peña
+#'   (2014) and Cremers, Pennings, Mainhard & Klugkist (2019). The uninformative priors
+#'   for the fixed effect regression coefficients of the two components are set to N(0, 10000).
+#'   Note that the model is only developed for models with a single nesting variable.
 #'
 #' @return A \code{bpnme} object, which can be further analyzed using the
 #'   associated functions \code{\link{traceplot.bpnme}},
@@ -236,14 +242,16 @@ bpnr <- function(pred.I, data, pred.II = pred.I,
 #'   random intercepts and slopes.} \item{\code{mm}}{A list of information,
 #'   model matrices, sample size, etc. on the specified model.} }
 #'
-#' @source Cremers, J., Mainhard, M.T. & Klugkist, I. (in press). Assessing a
-#'   Bayesian Embedding Approach to Circular Regression Models. Methodology
+#' @source Cremers, J., Mainhard, M.T. & Klugkist, I. (2018). Assessing a
+#'   Bayesian Embedding Approach to Circular Regression Models. Methodology, 14, 69-81.
 #'
-#' @source Cremers, J., & Klugkist, I. (2017). How to analyze circular data: A
-#'   tutorial for projected normal regression models. Under review.
+#' @source Cremers, J. & Klugkist, I. (2018). One direction? A tutorial for
+#'   circular data with examples in cognitive psychology. Frontiers in
+#'   Psychology: Cognitive Science.
 #'
-#' @source Cremers, J., & Klugkist, I. (2017). Longitudinal circular modelling
-#'   of circumplex measurements for teacher behavior. Working paper.
+#' @source Cremers, J., Pennings, H.J.M., Mainhard, M.T. & Klugkist, I. (2019).
+#'   Circular Modelling of Circumplex Measurements for Interpersonal Behavior.
+#'   Assessment, Online First.
 #'
 #' @source Nuñez-Antonio, G. & Gutiérrez-Peña, E. (2014). A Bayesian model for
 #'   longitudinal circular data based on the projected normal distribution.
@@ -267,17 +275,21 @@ bpnme <- function(pred.I, data, pred.II = pred.I,
 
   mm <- mmme(pred.I, data, pred.II)
 
-  if(!"(Intercept)" %in% colnames(mm$mm_ran.I) | !"(Intercept)" %in% colnames(mm$mm_ran.II)){
-
-    stop("No random intercept in the model")
-
-  }
-
-  if(!all(colnames(mm$mm_ran.I) %in% colnames(mm$mm.I)) | !all(colnames(mm$mm_ran.II) %in% colnames(mm$mm.II))){
-
-    stop("Not all random effects have a corresponding fixed effect")
-
-  }
+  # if(!"(Intercept)" %in% colnames(mm$mm_ran.I) | !"(Intercept)" %in% colnames(mm$mm_ran.II)){
+  #
+  #   stop("No random intercept in the model")
+  #
+  # }
+  #
+  # if(!all(colnames(mm$mm_ran.I) %in% colnames(mm$mm.I)) | !all(colnames(mm$mm_ran.II) %in% colnames(mm$mm.II))){
+  #
+  #   stop("Not all random effects have a corresponding fixed effect")
+  #
+  # }
+#
+#   if(!all(is.numeric(unlist(mm$ZI))) | !all(is.numeric(unlist(mm$ZII)))){
+#     stop("Not all random effects are numeric variables")
+#   }
 
   burn <- burn * n.lag
   tm <- burn + (its * n.lag)
@@ -293,11 +305,11 @@ bpnme <- function(pred.I, data, pred.II = pred.I,
   v1  <- q1
   v2  <- q2
 
-  B1  <- diag(v1) * 0.001
-  B2  <- diag(v2) * 0.001
+  B1  <- diag(v1) * 0.0001
+  B2  <- diag(v2) * 0.0001
 
-  A1  <- matrix(0, p1, p1)
-  A2  <- matrix(0, p2, p2)
+  A1  <- diag(p1) * 0.0001 #matrix(0, p1, p1)
+  A2  <- diag(p2) * 0.0001 #matrix(0, p2, p2)
 
   #matrices for final results
   Beta.I   <- matrix(NA, its, p1)
