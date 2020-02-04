@@ -1,9 +1,9 @@
-c4f7ae6f9adf98d04687af3209fdc03b *DESCRIPTION
+309021e0af4706ac42ea713d4818d120 *DESCRIPTION
 2b187bb965fcb3b713d1f49697971f6b *NAMESPACE
-aa557a4f7ac854bfdd083e98ec852c00 *NEWS.md
+cdb8f8247aaf7b95a12ed0402d4596db *NEWS.md
 66bf5b1f09a0207162b762003bba54ff *R/RcppExports.R
-bfeb2cba05e1426a20ba6c22b268d6aa *R/bpnreg.R
-d94ebe9bd1959a90b80dec4ec89efcef *R/classfunctions.R
+a49dd51b6e15f230a4f56e8933c26c79 *R/bpnreg.R
+8f8ac9cb5edbbd28357808a6eafdaf9a *R/classfunctions.R
 ab98d07cded5cda59430ed8fc8bc4d2d *R/data.R
 7098598dab5acd9600e8dc5545374de9 *R/lme4code.R
 45901de1f390df89a992e92936275133 *R/mcmc.R
@@ -12,7 +12,7 @@ ab98d07cded5cda59430ed8fc8bc4d2d *R/data.R
 7eae8c995c0f09c7b4579fe851d975c2 *README.md
 5e50de6028853aa28da1d6fc5b804daa *data/Maps.rda
 b4f0ac9b2448f950f225ba96d8cda997 *data/Motor.rda
-0e0bb266c6fa8cfabd8b7857211a7d96 *man/BFc.Rd
+734aa28d5f1eb7b34a9d832e6dbd72d9 *man/BFc.Rd
 510804b6721354bb53abbd4c5324c108 *man/BFc.bpnme.Rd
 394b1458063c322543eb172fd62b94b9 *man/BFc.bpnr.Rd
 d788268df136ddf6dff2ff61e263adb1 *man/DIC_reg.Rd
@@ -28,7 +28,7 @@ c166147eb7073da5bf28fb3e11a4e2e9 *man/betaBlock.fRI.Rd
 ecbe5a3a3cd456133f8f1179b862d1e8 *man/betaBlock.fRS.Rd
 d767c09c74077722e170b460ca83f11a *man/bpnme.Rd
 f205370d5d3b1927d46473490e34a1dd *man/bpnr.Rd
-b319987d746351bf18091f8f965db200 *man/bpnreg.Rd
+5fcbfe63c94aac07cf5c8061b7750709 *man/bpnreg.Rd
 ff5712d111f178e771f4ba486b94434b *man/cat_check.Rd
 31629c8459690915bbea391e19957efd *man/circ_coef.Rd
 110ddf48ccc5a7eedcda407f7186f6e5 *man/circ_coef_rcpp.Rd
