@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>FAQ</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">FAQ</h1>
+
+
+
+<p>This vignette contains answers to some frequently asked questions about the package <code>bpnreg</code> for analyzing Bayesian projected normal circular regression and mixed-effects models. Answers are given and illustrated with the <code>Motor</code> and <code>Maps</code> datasets.</p>
+<p>To obtain more information about the <code>Motor</code> and <code>Maps</code> datasets the following code can be used:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(bpnreg)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>?Maps</span>
+<span id="cb1-3"><a href="#cb1-3"></a>?Motor</span></code></pre></div>
+<div id="how-to-fit-a-circular-regression-model" class="section level3">
+<h3>How to fit a circular regression model:</h3>
+<p>A circular regression model for the <code>Motor</code> data can be fit using the <code>bpnr</code> function as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond <span class="op">+</span><span class="st"> </span>AvAmp, <span class="dt">data =</span> Motor)</span></code></pre></div>
+<p>Note that categorical variables should be of class <code>factor</code> in order to be handled correctly by bpnreg.</p>
+</div>
+<div id="how-to-fit-a-circular-mixed-effects-model" class="section level3">
+<h3>How to fit a circular mixed effects model:</h3>
+<p>A circular mixed-effects model for the <code>Maps</code> data can be fit using the <code>bpnme</code> function as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">bpnme</span>(Error.rad <span class="op">~</span><span class="st"> </span>Maze <span class="op">+</span><span class="st"> </span>Trial.type <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>Subject),<span class="dt">data =</span>  Maps, <span class="dt">its =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p>Note that categorical variables should be of class <code>factor</code> in order to be handled correctly by bpnreg.</p>
+</div>
+<div id="how-to-specify-interaction-effects" class="section level3">
+<h3>How to specify interaction effects:</h3>
+<p>An interaction effect between the <code>Cond</code> and <code>AvAmp</code> variables can be included in the regression model in the following two ways:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond <span class="op">+</span><span class="st"> </span>AvAmp <span class="op">+</span><span class="st"> </span>Cond<span class="op">:</span>AvAmp, <span class="dt">data =</span> Motor)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond<span class="op">*</span>AvAmp, <span class="dt">data =</span> Motor)</span></code></pre></div>
+</div>
+<div id="how-to-format-the-input-data" class="section level3">
+<h3>How to format the input data:</h3>
+<p>The input data should be formatted as a standard <code>R</code> <code>data.frame</code> or <code>dplyr</code> <code>tbl()</code>.</p>
+</div>
+<div id="are-missing-values-allowed-in-the-input-data-and-how-are-missing-values-dealt-with" class="section level3">
+<h3>Are missing values allowed in the input data and how are missing values dealt with?</h3>
+<p>In case of missing values in the input data an error will be returned. In case of mixed effects models subgroups do not need to be of the same size, e.g. in case of repeated measures data not all individuals need to have been observed at each measurement occasion.</p>
+</div>
+<div id="how-to-scale-the-dependent-variable" class="section level3">
+<h3>How to scale the dependent variable:</h3>
+<p>The dependent variable should be a circular variable measured on a scale from 0 to 2<span class="math inline">\(\pi\)</span> radians or -<span class="math inline">\(\pi\)</span> to <span class="math inline">\(\pi\)</span> radians. An warning message if returned in case the dependent variable contains values outside these ranges.</p>
+</div>
+<div id="can-user-specified-priors-be-used" class="section level3">
+<h3>Can user-specified priors be used?</h3>
+<p>The package does not currently contain an option to include a user-specified priors. Priors for regression coefficients and fixed-effect coefficients used in the current version of the package are uninformative normal distributions, <span class="math inline">\(N(0, 10000)\)</span>.</p>
+</div>
+<div id="can-multiple-groupingnesting-factors-be-used" class="section level3">
+<h3>Can multiple grouping/nesting factors be used?</h3>
+<p>No. Unlike packages for mixed-effects models such as <code>lme4</code> and <code>nlme</code> the mixed-effects model in <code>bpnreg</code> may only contain one nesting variable/grouping factor.</p>
+</div>
+<div id="how-to-specify-a-seed" class="section level3">
+<h3>How to specify a seed:</h3>
+<p>A seed can be specified in the <code>bpnr</code> and <code>bpnme</code> functions using the <code>seed</code> option as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond <span class="op">+</span><span class="st"> </span>AvAmp, <span class="dt">data =</span> Motor, <span class="dt">seed =</span> <span class="dv">101</span>)</span></code></pre></div>
+</div>
+<div id="how-to-obtain-model-summaries" class="section level3">
+<h3>How to obtain model summaries:</h3>
+<p>The <code>coef_circ()</code> function can be used to extract model summaries for both categorical and continuous predictors. The units in which the results are displayed can be chosen to be either radians or degrees.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>fit &lt;-<span class="st"> </span><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond <span class="op">+</span><span class="st"> </span>AvAmp, <span class="dt">data =</span> Motor, <span class="dt">seed =</span> <span class="dv">101</span>)</span></code></pre></div>
+<p>E.g. circular coefficients for the circular regression model above can be obtained as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;continuous&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;degrees&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;categorical&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;degrees&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;continuous&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;radians&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;categorical&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;radians&quot;</span>)</span></code></pre></div>
+</div>
+<div id="how-to-interpret-the-output-of-the-coef_circ-function" class="section level3">
+<h3>How to interpret the output of the <code>coef_circ()</code> function:</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>fit &lt;-<span class="st"> </span><span class="kw">bpnr</span>(Phaserad <span class="op">~</span><span class="st"> </span>Cond <span class="op">+</span><span class="st"> </span>AvAmp, <span class="dt">data =</span> Motor, <span class="dt">seed =</span> <span class="dv">101</span>)</span></code></pre></div>
+<p>To obtain circular coefficients in degrees for the continuous variable <code>AvAmp</code> in the circular regression model above are obtained as:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;continuous&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;degrees&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt;                  mean        mode         sd      LB HPD     UB HPD
+#&gt; AvAmp ax   81.6068095  74.1076555 115.262007 -154.134263 276.104930
+#&gt; AvAmp ac   37.2973696 -25.0969144  72.470701  -45.416389 145.443905
+#&gt; AvAmp bc   -0.7818724   0.6110678  11.091685   -2.604172   1.399250
+#&gt; AvAmp AS   -0.2287556  -0.3563137  26.292848   -6.737327   9.425920
+#&gt; AvAmp SAM  -0.7075764  -0.3444048  22.473728  -12.530243   8.356794
+#&gt; AvAmp SSDO  0.2523587   1.7567794   1.963975   -2.636442   2.857969</code></pre>
+<p>The output returns summary statistics for the posterior distributions for several parameters of the circular regression line of the <code>AvAmp</code> variable.</p>
+<p>These parameters are interpreted as follows:</p>
+<ul>
+<li><code>ax</code> = the location of the inflection point of the regression curve on the axis of the predictor.</li>
+<li><code>ac</code> = the location of the inflection point of the regression curve on the axis of the circular outcome.</li>
+<li><code>bc</code> = the slope of the tangent line at the inflection point. An increase of 1 unit of the predictor at the inflection point leads to a <code>bc</code> change in the circular outcome.</li>
+<li><code>AS</code> = the average slopes of the circular regression. An increase of 1 unit of the predictor leads to a <code>AS</code> change in the circular outcome on average.</li>
+<li><code>SAM</code> = the circular regression slopes at the mean.An increase of 1 unit of the predictor leads to a <code>SAM</code> change in the circular outcome at the average predictor value.</li>
+<li><code>SSDO</code>= the signed shortest distance to the origin.</li>
+</ul>
+<p>A more detailed explanation of the above parameters is given in Cremers, Mulder &amp; Klugkist (2018).</p>
+<p>To obtain circular coefficients in degrees for the categorical variable <code>Cond</code> we use:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">coef_circ</span>(fit, <span class="dt">type =</span> <span class="st">&quot;categorical&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;degrees&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; $Means
+#&gt;                          mean      mode       sd         LB       UB
+#&gt; (Intercept)          47.60691  47.46081 12.47107   23.71734 70.70371
+#&gt; Condsemi.imp         15.93874  15.29835 22.01006  -28.42677 57.42232
+#&gt; Condimp              28.31828  37.56589 25.50625  -26.30714 77.40392
+#&gt; Condsemi.impCondimp -62.81396 -71.20733 59.58785 -170.56951 85.77068
+#&gt; 
+#&gt; $Differences
+#&gt;                          mean      mode       sd        LB        UB
+#&gt; Condsemi.imp         31.74145  38.90969 26.89524 -19.95152  86.87231
+#&gt; Condimp              19.46819  22.77203 30.56586 -42.88731  80.42033
+#&gt; Condsemi.impCondimp 115.96819 141.80603 57.61487 -56.90659 203.30989</code></pre>
+<p>The output returns summary statistics for the posterior distributions of the circular means for all categories and combination of categories of the categorical variables in the model, as well as differences between these means.</p>
+</div>
+<div id="how-to-obtain-model-fit-statistics" class="section level3">
+<h3>How to obtain model fit statistics:</h3>
+<p>By using the <code>fit()</code> function on a <code>bpnr</code> or <code>bpnme</code> object 5 different fit statistics together with the (effective) number of parameters they are based on can be obtained.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">fit</span>(fit)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">#&gt;         Statistic Parameters</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co">#&gt; lppd     -57.1423   8.000000</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co">#&gt; DIC      130.1116   8.024107</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="co">#&gt; DIC.alt  132.1696   9.053110</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="co">#&gt; WAIC1    129.8904   7.802881</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="co">#&gt; WAIC2    131.6491   8.682262</span></span></code></pre></div>
+<p>All five fit statistics are computed as in Gelman et.al. (2014). The <code>lppd</code> is an estimate of the expected log predictive density, the <code>DIC</code> is the Deviance Information Criterion, the <code>DIC_alt</code> is a version of the DIC that uses a slightly different definition of the effective number of parameters, the <code>WAIC1</code> and <code>WAIC2</code> are the two versions of the Watanabe-Akaike or Widely Available Information Criterion presented in Gelman et.al. (2014).</p>
+</div>
+<div id="how-to-obtain-the-raw-posterior-estimates" class="section level3">
+<h3>How to obtain the raw posterior estimates:</h3>
+<p>Raw posterior estimates are stored in the following objects:</p>
+<ul>
+<li><code>a.x</code> = posterior samples for the the locations of the inflection point of the regression curve on the axis of the predictor.</li>
+<li><code>a.c</code> = posterior samples for the the locations of the inflection point of the regression curve on the axis of the circular outcome.</li>
+<li><code>b.c</code> = posterior samples for the slopes of the tangent line at the inflection point.</li>
+<li><code>AS</code> = posterior samples for the average slopes of the circular regression.</li>
+<li><code>SAM</code> = posterior samples for the circular regression slopes at the mean.</li>
+<li><code>SSDO</code>= posterior samples for the signed shortest distance to the origin.</li>
+<li><code>circ.diff</code> = posterior samples for the circular differences between intercept and other categories of categorical variables.</li>
+<li><code>beta1</code> = posterior samples for the fixed effects coefficients for the first component.</li>
+<li><code>beta2</code> = posterior samples for the fixed effects coefficients for the second component.</li>
+</ul>
+<p>In circular mixed-effects models the following additional parameters can be obtained:</p>
+<ul>
+<li><code>b1</code> = posterior samples for the random effects coefficients for the first component.</li>
+<li><code>b2</code> = posterior samples for the random effects coefficients for the second component.</li>
+<li><code>circular.ri</code> = posterior samples for the circular random intercepts for each individual.</li>
+<li><code>omega1</code> = posterior samples for the random effect variances of the first component.</li>
+<li><code>omega2</code> = posterior samples for the random effect variances of the first component.</li>
+<li><code>cRS</code> = posterior samples for the circular random slope variance.</li>
+<li><code>cRI</code> = posterior samples of the mean resultant length of the circular random intercept, a measure of concentration.</li>
+</ul>
+<p>E.g. to obtain the first six posterior samples for <code>beta1</code> and <code>a.x</code> we use the following code:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">head</span>(fit<span class="op">$</span>beta1)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt;      (Intercept) Condsemi.imp    Condimp         AvAmp</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt; [1,]   0.3454734    0.5982656  0.4816842  0.0140926098</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt; [2,]   0.9452224    0.5676390 -0.7671751 -0.0067083928</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt; [3,]   0.7600679    0.2982861 -0.1715743 -0.0060381475</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt; [4,]   1.3186083   -0.3477482 -0.5248282  0.0003941233</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt; [5,]   1.3624594   -0.4803601 -0.8509008 -0.0059952280</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt; [6,]   0.9594075    0.3900853 -0.3079756 -0.0073404834</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">head</span>(fit<span class="op">$</span>a.x)</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt;          AvAmp</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt; [1,]  41.70181</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt; [2,] -27.74747</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt; [3,]  76.66307</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt; [4,]  67.55377</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt; [5,] 108.64874</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt; [6,] 175.43192</span></span></code></pre></div>
+</div>
+<div id="how-to-obtain-random-effect-variances-and-individual-random-effects-in-circular-mixed-effects-models" class="section level3">
+<h3>How to obtain random effect variances and individual random effects in circular mixed-effects models:</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>fitme &lt;-<span class="st"> </span><span class="kw">bpnme</span>(Error.rad <span class="op">~</span><span class="st"> </span>Maze <span class="op">+</span><span class="st"> </span>Trial.type <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>Subject), Maps, <span class="dt">its =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p>In circular mixed-effects models the following parameters contain the individual random effects and random effect variances:</p>
+<ul>
+<li><code>b1</code> = posterior samples for the random effects coefficients for the first component.</li>
+<li><code>b2</code> = posterior samples for the random effects coefficients for the second component.</li>
+<li><code>circular.ri</code> = posterior samples for the circular random intercepts for each individual.</li>
+<li><code>omega1</code> = posterior samples for the random effect variances of the first component.</li>
+<li><code>omega2</code> = posterior samples for the random effect variances of the first component.</li>
+<li><code>cRS</code> = posterior samples for the circular random slope variance (for <code>bc</code>).</li>
+<li><code>cRI</code> = posterior samples of the mean resultant length of the circular random intercept, a measure of concentration.</li>
+</ul>
+<p>E.g. if we want to obtain the posterior mean for the mean resultant length of the circular random intercept we use the following code:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">mean</span>(fitme<span class="op">$</span>cRI)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co">#&gt; [1] 0.999164</span></span></code></pre></div>
+<p>This estimate is very close to 1, meaning there is almost no variation in the individual circular random intercepts. We can check this by plotting the posterior means of the individual circular random intercepts (in degrees):</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">apply</span>(fitme<span class="op">$</span>circular.ri, <span class="dv">1</span>, mean_circ)<span class="op">*</span><span class="dv">180</span><span class="op">/</span>pi</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt;  [1] -12.84263 -13.02118 -14.03966 -13.64377 -13.63093 -13.26531 -12.89879</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co">#&gt;  [8] -13.55208 -12.38710 -13.43168 -13.75639 -14.18667 -13.67186 -13.26797</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="co">#&gt; [15] -12.96867 -12.90468 -13.30542 -12.60719 -14.51208 -12.57709</span></span></code></pre></div>
+<p>Indeed the circular random intercepts of the 20 individuals in the <code>Maps</code> data lie very close together.</p>
+<p>An explanation of the computation of random intercept and slope variances can be found in the supplementary material of Cremers, Pennings, Mainhard &amp; Klugkist (2021).</p>
+</div>
+<div id="how-to-obtain-the-estimated-variance-for-different-groups-in-a-circular-regression-or-circular-mixed-effects-models" class="section level3">
+<h3>How to obtain the estimated variance for different groups in a circular regression or circular mixed-effects models:</h3>
+<p>Because projected normal models are heterogeneous models, i.e. they simultaneously model mean and variance, we can in addition to investigating effects on the circular mean also investigate effects on the circular variance.</p>
+<p>Kendall (1974) gives the following formula for computation of the circular variance in a projected normal model:</p>
+<p><span class="math display">\[1 - \hat{\rho} = 1 - \sqrt{\pi\xi/2}\exp{-\xi}[I_0(\xi) + I_1(\xi)]\]</span></p>
+<p>where <span class="math inline">\(\xi = ||\boldsymbol{\mu}||^2\)</span> and <span class="math inline">\(I_\nu()\)</span> is the modified Bessel function of the first kind and order <span class="math inline">\(\nu\)</span>. For the effect of a variable <span class="math inline">\(x\)</span> on the variance, <span class="math inline">\(\boldsymbol{\mu} = (\beta_0^I + \beta_1^Ix,\beta_0^{II} + \beta_1^{II}x)\)</span>, where <span class="math inline">\(\beta_0^I\)</span>, <span class="math inline">\(\beta_1^I\)</span>, <span class="math inline">\(\beta_0^{II}\)</span> and <span class="math inline">\(\beta_1^{II}\)</span> are the intercepts and slopes of the first and second linear component respectively.</p>
+<p>Automated summaries for effects on the circular variance are however not yet implemented in <code>bpnreg</code> and will need to be computed explicitly using the raw posterior samples. E.g. the effect of the trial type on the circular variance can be computed as follows:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>a1 &lt;-<span class="st"> </span>fitme<span class="op">$</span>beta1[,<span class="st">&quot;(Intercept)&quot;</span>]</span>
+<span id="cb20-2"><a href="#cb20-2"></a>a2 &lt;-<span class="st"> </span>fitme<span class="op">$</span>beta2[,<span class="st">&quot;(Intercept)&quot;</span>]</span>
+<span id="cb20-3"><a href="#cb20-3"></a>b1 &lt;-<span class="st"> </span>fitme<span class="op">$</span>beta1[,<span class="st">&quot;Trial.type1&quot;</span>]</span>
+<span id="cb20-4"><a href="#cb20-4"></a>b2 &lt;-<span class="st"> </span>fitme<span class="op">$</span>beta2[,<span class="st">&quot;Trial.type1&quot;</span>]</span>
+<span id="cb20-5"><a href="#cb20-5"></a></span>
+<span id="cb20-6"><a href="#cb20-6"></a>zeta_standard &lt;-<span class="st"> </span><span class="kw">sqrt</span>((a1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(a2 <span class="op">+</span><span class="st"> </span>b2)<span class="op">^</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">4</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>var_standard  &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sqrt</span>((pi <span class="op">*</span><span class="st"> </span>zeta_standard)<span class="op">/</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>zeta_standard) <span class="op">*</span><span class="st"> </span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="st">                        </span>(<span class="kw">besselI</span>(zeta_standard, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="kw">besselI</span>(zeta_standard, <span class="dv">1</span>))</span>
+<span id="cb20-9"><a href="#cb20-9"></a></span>
+<span id="cb20-10"><a href="#cb20-10"></a>zeta_probe &lt;-<span class="st"> </span><span class="kw">sqrt</span>((a1 <span class="op">+</span><span class="st"> </span>b1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(a2 <span class="op">+</span><span class="st"> </span>b2)<span class="op">^</span><span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">4</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>var_probe  &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sqrt</span>((pi <span class="op">*</span><span class="st"> </span>zeta_probe)<span class="op">/</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>zeta_probe) <span class="op">*</span><span class="st"> </span></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="st">                        </span>(<span class="kw">besselI</span>(zeta_probe, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="kw">besselI</span>(zeta_probe, <span class="dv">1</span>))</span>
+<span id="cb20-13"><a href="#cb20-13"></a></span>
+<span id="cb20-14"><a href="#cb20-14"></a>standard &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mode_est</span>(var_standard), </span>
+<span id="cb20-15"><a href="#cb20-15"></a>              <span class="kw">mean</span>(var_standard),</span>
+<span id="cb20-16"><a href="#cb20-16"></a>              <span class="kw">sd</span>(var_standard),</span>
+<span id="cb20-17"><a href="#cb20-17"></a>              <span class="kw">hpd_est</span>(var_standard))</span>
+<span id="cb20-18"><a href="#cb20-18"></a>probe &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mode_est</span>(var_probe), </span>
+<span id="cb20-19"><a href="#cb20-19"></a>           <span class="kw">mean</span>(var_probe),</span>
+<span id="cb20-20"><a href="#cb20-20"></a>           <span class="kw">sd</span>(var_probe),</span>
+<span id="cb20-21"><a href="#cb20-21"></a>           <span class="kw">hpd_est</span>(var_probe))</span>
+<span id="cb20-22"><a href="#cb20-22"></a></span>
+<span id="cb20-23"><a href="#cb20-23"></a>results &lt;-<span class="st"> </span><span class="kw">rbind</span>(standard, probe)</span>
+<span id="cb20-24"><a href="#cb20-24"></a></span>
+<span id="cb20-25"><a href="#cb20-25"></a><span class="kw">colnames</span>(results) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mode&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;sd&quot;</span>, <span class="st">&quot;HPD LB&quot;</span>, <span class="st">&quot;HPD UB&quot;</span>)</span>
+<span id="cb20-26"><a href="#cb20-26"></a><span class="kw">rownames</span>(results) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;standard&quot;</span>, <span class="st">&quot;probe&quot;</span>)</span></code></pre></div>
+<p>The posterior estimates of the circular variance for the standard and probe trials are:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>results</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="co">#&gt;                mode       mean         sd     HPD LB    HPD UB</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co">#&gt; standard 0.08921705 0.10585092 0.03000096 0.05673282 0.1748398</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co">#&gt; probe    0.06906938 0.07684648 0.02658352 0.04446418 0.1215804</span></span></code></pre></div>
+<p>From these results we conclude that the circular variance for the standard and probe trials is not significantly different, the 95% Highest Posterior Density (HPD) intervals overlap.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li><p>Cremers, J. , Mulder, K.T. &amp; Klugkist, I. (2018). Circular Interpretation of Regression Coefficients. <em>British Journal of Mathematical and Statistical Psychology, 71</em>(1), 75-95. <a href="https://doi.org/10.1111/bmsp.12108">[Full-text]</a></p></li>
+<li><p>Cremers, J., Pennings, H.J.M., Mainhard, T. &amp; Klugkist, I. (2021). Circular Modelling of Circumplex Measurements for Interpersonal Behavior. <em>Assessment, 28</em>(2), 585-600. <a href="https://doi.org/10.1177/1073191119858407">[Full-text]</a></p></li>
+<li><p>Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. &amp; Rubin, D. (2014). Bayesian Data Analysis, 3rd ed.</p></li>
+<li><p>Kendall, D.G. (1974). Pole-seeking Brownian motion and bird navigation. <em>Journal of the Royal Statistical Society. Series B, 37</em>, 97–133.</p></li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -4,8 +4,7 @@
 \alias{coef_circ.bpnr}
 \title{Obtain the circular coefficients of a Bayesian circular regression model}
 \usage{
-\method{coef_circ}{bpnr}(object, type = "continuous",
-  units = "radians")
+\method{coef_circ}{bpnr}(object, type = "continuous", units = "radians")
 }
 \arguments{
 \item{object}{a \code{bpnr object} obtained from the function
@@ -15,7 +14,7 @@
 coefficients for the continuous or categorical predictor variables}
 
 \item{units}{one of \code{c("degrees", "radians")} to get categorical
-coefficients estimates and estimates for \code{$a_c$} in degrees or
+coefficients estimates and estimates for \code{$ac$, $bc$, AS and SAM} in degrees or
 radians.}
 }
 \value{

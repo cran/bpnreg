@@ -1,3 +1,14 @@
+#' Compute utmu
+#'
+#' @param t current outcome value
+#' @param mu1 current predicted linear mean of the first component
+#' @param mu2 current predicted linear mean of the second component
+#'
+#' @keywords internal
+#'
+
+Dbd <- function(t, mu1, mu2){ cos(t)*mu1 + sin(t)*mu2 }
+
 #' Check whether a variable is categorical
 #'
 #' \code{cat_check} checks whether a vector contains only 0 and 1 and thus is a
@@ -201,7 +212,7 @@ mmr <- function(pred.I, data, pred.II){
 
   #Warning message if theta is not measures in radians:
 
-  if(!(max(unlist(theta)) < 2*pi & min(unlist(theta)) >= 0) & !(max(unlist(theta)) < pi & min(unlist(theta)) >= -pi)){
+  if(!((max(unlist(theta)) < 2*pi & min(unlist(theta)) >= 0) | (max(unlist(theta)) < pi & min(unlist(theta)) >= -pi))){
     cat("The circular outcome may contain values that are out of range. \n")
     cat("Please check that the circular outcome is measured in radians.")
   }
@@ -331,6 +342,7 @@ mmme <- function(pred.I, data, pred.II){
     no.Meas[i]    <- length(theta[[i]])
     R[[i]]        <- as.matrix(rep(1, length(theta[[i]])))
     theta[[i]]    <- as.matrix(theta[[i]])
+
     X_I[[i]]      <- matrix(X_I[[i]], no.Meas[i], length(X_I[[i]])/no.Meas[i], dimnames = list(NULL, colnames(mm.I)))
     X_II[[i]]     <- matrix(X_II[[i]], no.Meas[i], length(X_II[[i]])/no.Meas[i], dimnames = list(NULL, colnames(mm.II)))
     Z_I[[i]]      <- matrix(Z_I[[i]], no.Meas[i], length(Z_I[[i]])/no.Meas[i], dimnames = list(NULL, colnames(mm_ran.I)))
@@ -341,7 +353,7 @@ mmme <- function(pred.I, data, pred.II){
 
   #Warning message if theta is not measures in radians:
 
-  if(!(max(unlist(theta)) < 2*pi & min(unlist(theta)) >= 0) & !(max(unlist(theta)) < pi & min(unlist(theta)) >= -pi)){
+  if(!((max(unlist(theta)) < 2*pi & min(unlist(theta)) >= 0) | (max(unlist(theta)) < pi & min(unlist(theta)) >= -pi))){
     cat("The circular outcome may contain values that are out of range. \n")
     cat("Please check that the circular outcome is measured in radians.")
   }
@@ -407,33 +419,33 @@ sumr <- function(output, mm){
 
   #Linear effects
 
-  lin.res.I <- matrix(NA, ncol(output$B1), 5)
+  lin.res.I <- matrix(NA, ncol(output$beta1), 5)
   rownames(lin.res.I) <- c(var.names.I)
   colnames(lin.res.I) <- c("mean", "mode", "sd", "LB HPD", "UB HPD")
 
-  colnames(output$B1) <- c(var.names.I)
+  colnames(output$beta1) <- c(var.names.I)
 
-  lin.res.II <- matrix(NA, ncol(output$B2), 5)
+  lin.res.II <- matrix(NA, ncol(output$beta2), 5)
   rownames(lin.res.II) <- c(var.names.II)
   colnames(lin.res.II) <- c("mean", "mode", "sd", "LB HPD", "UB HPD")
 
-  colnames(output$B2) <- c(var.names.II)
+  colnames(output$beta2) <- c(var.names.II)
 
-  for(i in colnames(output$B1)){
+  for(i in colnames(output$beta1)){
 
-    lin.res.I[i,1] <- mean(output$B1[,i])
-    lin.res.I[i,2] <- mode_est(output$B1[,i])
-    lin.res.I[i,3] <- sd(output$B1[,i])
-    lin.res.I[i,4:5] <- hpd_est(output$B1[,i])
+    lin.res.I[i,1] <- mean(output$beta1[,i])
+    lin.res.I[i,2] <- mode_est(output$beta1[,i])
+    lin.res.I[i,3] <- sd(output$beta1[,i])
+    lin.res.I[i,4:5] <- hpd_est(output$beta1[,i])
 
   }
 
-  for(i in colnames(output$B2)){
+  for(i in colnames(output$beta2)){
 
-    lin.res.II[i,1] <- mean(output$B2[,i])
-    lin.res.II[i,2] <- mode_est(output$B2[,i])
-    lin.res.II[i,3] <- sd(output$B2[,i])
-    lin.res.II[i,4:5] <- hpd_est(output$B2[,i])
+    lin.res.II[i,1] <- mean(output$beta2[,i])
+    lin.res.II[i,2] <- mode_est(output$beta2[,i])
+    lin.res.II[i,3] <- sd(output$beta2[,i])
+    lin.res.II[i,4:5] <- hpd_est(output$beta2[,i])
 
   }
 
@@ -501,18 +513,18 @@ sumr <- function(output, mm){
 
       if(!("(Intercept)" %in% colnames(mm$XI))){
 
-        baseline <- atan2(output$B2[, "(Intercept)"], rep(0, output$its))
-        dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], rep(0, output$its) + output$B1[, c])
+        baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+        dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + output$beta1[, c])
 
       }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-        baseline <- atan2(rep(0, output$its), output$B1[, "(Intercept)"])
-        dummy <- atan2(rep(0, output$its) + output$B2[, c], output$B1[, "(Intercept)"] + output$B1[, c])
+        baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+        dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
       }else{
 
-        baseline <- atan2(output$B2[, "(Intercept)"], output$B1[, "(Intercept)"])
-        dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], output$B1[, "(Intercept)"] + output$B1[, c])
+        baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+        dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
       }
 
@@ -546,21 +558,21 @@ sumr <- function(output, mm){
 
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
-          baseline <- atan2(output$B2[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, var.comb.cat[1,c]] + output$B2[, var.comb.cat[2,c]],
-                         rep(0, output$its) + output$B1[, var.comb.cat[1,c]] + output$B1[, var.comb.cat[2,c]])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         rep(0, output$its) + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          baseline <- atan2(rep(0, output$its), output$B1[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$B2[, var.comb.cat[1,c]] + output$B2[, var.comb.cat[2,c]],
-                         output$B1[, "(Intercept)"] + output$B1[, var.comb.cat[1,c]] + output$B1[, var.comb.cat[2,c]])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         output$beta1[, "(Intercept)"] + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }else{
 
-          baseline <- atan2(output$B2[, "(Intercept)"], output$B1[, "(Intercept)"])
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, var.comb.cat[1,c]] + output$B2[, var.comb.cat[2,c]],
-                         output$B1[, "(Intercept)"] + output$B1[, var.comb.cat[1,c]] + output$B1[, var.comb.cat[2,c]])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         output$beta1[, "(Intercept)"] + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }
 
@@ -589,22 +601,22 @@ sumr <- function(output, mm){
 
     for(c in var.cat){
 
-      if(all(!colnames(output$B1) == c)){
+      if(all(!colnames(output$beta1) == c)){
 
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
-          baseline <- atan2(output$B2[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], rep(0, output$its) + rep(0, output$its))
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + rep(0, output$its))
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          baseline <- atan2(rep(0, output$its), output$B1[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$B2[, c], output$B1[, "(Intercept)"] + rep(0, output$its))
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + rep(0, output$its))
 
         }else{
 
-          baseline <- atan2(output$B2[, "(Intercept)"], output$B1[, "(Intercept)"])
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], output$B1[, "(Intercept)"] + rep(0, output$its))
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + rep(0, output$its))
 
         }
 
@@ -624,22 +636,22 @@ sumr <- function(output, mm){
         circ.res.means[c,3] <- sd_circ(dummy)
         circ.res.means[c,4:5] <- hpd_est_circ(dummy)
 
-      }else if(all(!colnames(output$B2) == c)){
+      }else if(all(!colnames(output$beta2) == c)){
 
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
-          baseline <- atan2(output$B2[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$B2[, "(Intercept)"] + rep(0, output$its), rep(0, output$its) + output$B1[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + rep(0, output$its), rep(0, output$its) + output$beta1[, c])
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          baseline <- atan2(rep(0, output$its), output$B1[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + rep(0, output$its), output$B1[, "(Intercept)"] + output$B1[, c])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + rep(0, output$its), output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }else{
 
-          baseline <- atan2(output$B2[, "(Intercept)"], output$B1[, "(Intercept)"])
-          dummy <- atan2(output$B2[, "(Intercept)"] + rep(0, output$its), output$B1[, "(Intercept)"] + output$B1[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + rep(0, output$its), output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }
 
@@ -663,18 +675,18 @@ sumr <- function(output, mm){
 
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
-          baseline <- atan2(output$B2[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], rep(0, output$its) + output$B1[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + output$beta1[, c])
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          baseline <- atan2(rep(0, output$its), output$B1[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$B2[, c], output$B1[, "(Intercept)"] + output$B1[, c])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }else{
 
-          baseline <- atan2(output$B2[, "(Intercept)"], output$B1[, "(Intercept)"])
-          dummy <- atan2(output$B2[, "(Intercept)"] + output$B2[, c], output$B1[, "(Intercept)"] + output$B1[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }
 
@@ -750,24 +762,24 @@ sumr <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$B2[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
                                rep(0, output$its),
-                               output$B2[, v])
+                               output$beta2[, v])
 
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
                                rep(0, output$its),
-                               output$B2[, v])
+                               output$beta2[, v])
 
         }else{
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
-                               output$B2[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
                                rep(0, output$its),
-                               output$B2[, v])
+                               output$beta2[, v])
 
         }
 
@@ -784,23 +796,23 @@ sumr <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$B2[, "(Intercept)"],
-                               output$B1[, v],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
                                rep(0, output$its))
 
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
-                               output$B1[, v],
+                               output$beta1[, v],
                                rep(0, output$its))
 
         }else{
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
-                               output$B2[, "(Intercept)"],
-                               output$B1[, v],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
                                rep(0, output$its))
 
         }
@@ -818,24 +830,24 @@ sumr <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$XI))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$B2[, "(Intercept)"],
-                               output$B1[, v],
-                               output$B2[, v])
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
+                               output$beta2[, v])
 
 
         }else if(!("(Intercept)" %in% colnames(mm$XII))){
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
-                               output$B1[, v],
-                               output$B2[, v])
+                               output$beta1[, v],
+                               output$beta2[, v])
 
         }else{
 
-          circest <- circ_coef(output$B1[, "(Intercept)"],
-                               output$B2[, "(Intercept)"],
-                               output$B1[, v],
-                               output$B2[, v])
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
+                               output$beta2[, v])
 
         }
 
@@ -897,7 +909,7 @@ sumr <- function(output, mm){
        circ.res.means = circ.res.means,
        a.x = a.x, a.c = a.c, b.c = b.c,
        SAM = SAM, AS = AS, SSDO = SSDO, circ.diff = circ.diff,
-       B1 = output$B1, B2 = output$B2,
+       beta1 = output$beta1, beta2 = output$beta2,
        model.fit = model.fit, var.num = var.num, var.cat = var.cat)
 
 }
@@ -972,28 +984,28 @@ summe <- function(output, mm){
 
   #Fixed Effects
 
-  lin.res.I <- matrix(NA, ncol(output$Beta.I), 5)
-  rownames(lin.res.I) <- colnames(output$Beta.I)
+  lin.res.I <- matrix(NA, ncol(output$beta1), 5)
+  rownames(lin.res.I) <- colnames(output$beta1)
   colnames(lin.res.I) <- c("mean", "mode", "sd", "LB HPD", "UB HPD")
-  lin.res.II <- matrix(NA, ncol(output$Beta.II), 5)
-  rownames(lin.res.II) <- colnames(output$Beta.II)
+  lin.res.II <- matrix(NA, ncol(output$beta2), 5)
+  rownames(lin.res.II) <- colnames(output$beta2)
   colnames(lin.res.II) <- c("mean", "mode", "sd", "LB HPD", "UB HPD")
 
-  for(i in colnames(output$Beta.I)){
+  for(i in colnames(output$beta1)){
 
-    lin.res.I[i,1] <- mean(output$Beta.I[,i])
-    lin.res.I[i,2] <- mode_est(output$Beta.I[,i])
-    lin.res.I[i,3] <- sd(output$Beta.I[,i])
-    lin.res.I[i,4:5] <- hpd_est(output$Beta.I[,i])
+    lin.res.I[i,1] <- mean(output$beta1[,i])
+    lin.res.I[i,2] <- mode_est(output$beta1[,i])
+    lin.res.I[i,3] <- sd(output$beta1[,i])
+    lin.res.I[i,4:5] <- hpd_est(output$beta1[,i])
 
   }
 
-  for(i in colnames(output$Beta.II)){
+  for(i in colnames(output$beta2)){
 
-    lin.res.II[i,1] <- mean(output$Beta.II[,i])
-    lin.res.II[i,2] <- mode_est(output$Beta.II[,i])
-    lin.res.II[i,3] <- sd(output$Beta.II[,i])
-    lin.res.II[i,4:5] <- hpd_est(output$Beta.II[,i])
+    lin.res.II[i,1] <- mean(output$beta2[,i])
+    lin.res.II[i,2] <- mode_est(output$beta2[,i])
+    lin.res.II[i,3] <- sd(output$beta2[,i])
+    lin.res.II[i,4:5] <- hpd_est(output$beta2[,i])
 
   }
 
@@ -1066,18 +1078,18 @@ summe <- function(output, mm){
 
       if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
-        baseline <- atan2(output$Beta.II[, "(Intercept)"], rep(0, output$its))
-        dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], rep(0, output$its) + output$Beta.I[, c])
+        baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+        dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + output$beta1[, c])
 
       }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-        baseline <- atan2(rep(0, output$its), output$Beta.I[, "(Intercept)"])
-        dummy <- atan2(rep(0, output$its) + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+        baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+        dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
       }else{
 
-        baseline <- atan2(output$Beta.II[, "(Intercept)"], output$Beta.I[, "(Intercept)"])
-        dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+        baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+        dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
       }
 
@@ -1110,21 +1122,21 @@ summe <- function(output, mm){
 
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, var.comb.cat[1,c]] + output$Beta.II[, var.comb.cat[2,c]],
-                         rep(0, output$its) + output$Beta.I[, var.comb.cat[1,c]] + output$Beta.I[, var.comb.cat[2,c]])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         rep(0, output$its) + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          baseline <- atan2(rep(0, output$its), output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$Beta.II[, var.comb.cat[1,c]] + output$Beta.II[, var.comb.cat[2,c]],
-                         output$Beta.I[, "(Intercept)"] + output$Beta.I[, var.comb.cat[1,c]] + output$Beta.I[, var.comb.cat[2,c]])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         output$beta1[, "(Intercept)"] + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }else{
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, var.comb.cat[1,c]] + output$Beta.II[, var.comb.cat[2,c]],
-                         output$Beta.I[, "(Intercept)"] + output$Beta.I[, var.comb.cat[1,c]] + output$Beta.I[, var.comb.cat[2,c]])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, var.comb.cat[1,c]] + output$beta2[, var.comb.cat[2,c]],
+                         output$beta1[, "(Intercept)"] + output$beta1[, var.comb.cat[1,c]] + output$beta1[, var.comb.cat[2,c]])
 
         }
 
@@ -1152,22 +1164,22 @@ summe <- function(output, mm){
 
     for(c in var.cat){
 
-      if(all(!colnames(output$Beta.I) == c)){
+      if(all(!colnames(output$beta1) == c)){
 
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], rep(0, output$its) + rep(0, output$its))
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + rep(0, output$its))
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          baseline <- atan2(rep(0, output$its), output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + rep(0, output$its))
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + rep(0, output$its))
 
         }else{
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + rep(0, output$its))
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + rep(0, output$its))
 
         }
 
@@ -1187,22 +1199,22 @@ summe <- function(output, mm){
         circ.res.means[c,3] <- sd_circ(dummy)
         circ.res.means[c,4:5] <- hpd_est_circ(dummy)
 
-      }else if(all(!colnames(output$Beta.II) == c)){
+      }else if(all(!colnames(output$beta2) == c)){
 
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + rep(0, output$its), rep(0, output$its) + output$Beta.I[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + rep(0, output$its), rep(0, output$its) + output$beta1[, c])
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          baseline <- atan2(rep(0, output$its), output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + rep(0, output$its), output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + rep(0, output$its), output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }else{
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + rep(0, output$its), output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + rep(0, output$its), output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }
 
@@ -1226,18 +1238,18 @@ summe <- function(output, mm){
 
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], rep(0, output$its))
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], rep(0, output$its) + output$Beta.I[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], rep(0, output$its))
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], rep(0, output$its) + output$beta1[, c])
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          baseline <- atan2(rep(0, output$its), output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(rep(0, output$its) + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+          baseline <- atan2(rep(0, output$its), output$beta1[, "(Intercept)"])
+          dummy <- atan2(rep(0, output$its) + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }else{
 
-          baseline <- atan2(output$Beta.II[, "(Intercept)"], output$Beta.I[, "(Intercept)"])
-          dummy <- atan2(output$Beta.II[, "(Intercept)"] + output$Beta.II[, c], output$Beta.I[, "(Intercept)"] + output$Beta.I[, c])
+          baseline <- atan2(output$beta2[, "(Intercept)"], output$beta1[, "(Intercept)"])
+          dummy <- atan2(output$beta2[, "(Intercept)"] + output$beta2[, c], output$beta1[, "(Intercept)"] + output$beta1[, c])
 
         }
 
@@ -1320,24 +1332,24 @@ summe <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$Beta.II[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
                                rep(0, output$its),
-                               output$Beta.II[, v])
+                               output$beta2[, v])
 
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
                                rep(0, output$its),
-                               output$Beta.II[, v])
+                               output$beta2[, v])
 
         }else{
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
-                               output$Beta.II[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
                                rep(0, output$its),
-                               output$Beta.II[, v])
+                               output$beta2[, v])
 
         }
 
@@ -1358,23 +1370,23 @@ summe <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$Beta.II[, "(Intercept)"],
-                               output$Beta.I[, v],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
                                rep(0, output$its))
 
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
-                               output$Beta.I[, v],
+                               output$beta1[, v],
                                rep(0, output$its))
 
         }else{
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
-                               output$Beta.II[, "(Intercept)"],
-                               output$Beta.I[, v],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
                                rep(0, output$its))
 
         }
@@ -1396,24 +1408,24 @@ summe <- function(output, mm){
         if(!("(Intercept)" %in% colnames(mm$mm.I))){
 
           circest <- circ_coef(rep(0, output$its),
-                               output$Beta.II[, "(Intercept)"],
-                               output$Beta.I[, v],
-                               output$Beta.II[, v])
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
+                               output$beta2[, v])
 
 
         }else if(!("(Intercept)" %in% colnames(mm$mm.II))){
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
                                rep(0, output$its),
-                               output$Beta.I[, v],
-                               output$Beta.II[, v])
+                               output$beta1[, v],
+                               output$beta2[, v])
 
         }else{
 
-          circest <- circ_coef(output$Beta.I[, "(Intercept)"],
-                               output$Beta.II[, "(Intercept)"],
-                               output$Beta.I[, v],
-                               output$Beta.II[, v])
+          circest <- circ_coef(output$beta1[, "(Intercept)"],
+                               output$beta2[, "(Intercept)"],
+                               output$beta1[, v],
+                               output$beta2[, v])
 
         }
 
@@ -1511,29 +1523,29 @@ summe <- function(output, mm){
     rownames(lin.res.varrand.II) <- c("RI", paste("RS", c(var.num.rand.II, var.cat.rand.II)))
   }
 
-  for(i in 1:ncol(output$VCovI)){
+  for(i in 1:ncol(output$omega1)){
 
-    lin.res.varrand.I[i,1] <- mean(output$VCovI[i,i,])
-    lin.res.varrand.I[i,2] <- mode_est(output$VCovI[i,i,])
-    lin.res.varrand.I[i,3] <- sd(output$VCovI[i,i,])
-    lin.res.varrand.I[i,4:5] <- hpd_est(output$VCovI[i,i,])
+    lin.res.varrand.I[i,1] <- mean(output$omega1[i,i,])
+    lin.res.varrand.I[i,2] <- mode_est(output$omega1[i,i,])
+    lin.res.varrand.I[i,3] <- sd(output$omega1[i,i,])
+    lin.res.varrand.I[i,4:5] <- hpd_est(output$omega1[i,i,])
 
   }
 
-  for(i in 1:ncol(output$VCovII)){
+  for(i in 1:ncol(output$omega2)){
 
-    lin.res.varrand.II[i,1] <- mean(output$VCovII[i,i,])
-    lin.res.varrand.II[i,2] <- mode_est(output$VCovII[i,i,])
-    lin.res.varrand.II[i,3] <- sd(output$VCovII[i,i,])
-    lin.res.varrand.II[i,4:5] <- hpd_est(output$VCovII[i,i,])
+    lin.res.varrand.II[i,1] <- mean(output$omega2[i,i,])
+    lin.res.varrand.II[i,2] <- mode_est(output$omega2[i,i,])
+    lin.res.varrand.II[i,3] <- sd(output$omega2[i,i,])
+    lin.res.varrand.II[i,4:5] <- hpd_est(output$omega2[i,i,])
 
   }
 
   circ.varrand.ri <- apply(output$circular.ri, 2, rho_circ)
-  circ.res.varrand[1,1] <- mean(circ.varrand.ri)
-  circ.res.varrand[1,2] <- mode_est(circ.varrand.ri)
-  circ.res.varrand[1,3] <- sd(circ.varrand.ri)
-  circ.res.varrand[1,4:5] <- hpd_est(circ.varrand.ri)
+  circ.res.varrand[1,1] <- mean(1-circ.varrand.ri)
+  circ.res.varrand[1,2] <- mode_est(1-circ.varrand.ri)
+  circ.res.varrand[1,3] <- sd(1-circ.varrand.ri)
+  circ.res.varrand[1,4:5] <- hpd_est(1-circ.varrand.ri)
 
 
   circest.rand.num <- array(NA,
@@ -1556,26 +1568,26 @@ summe <- function(output, mm){
 
     for(v in var.num.rand){
 
-      if(all(!colnames(output$B.I) == v)){
+      if(all(!colnames(output$b1) == v)){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
           b1 <- rep(0, output$its)
-          b2 <- output$Beta.I[, v]+ output$B.I[i,v,]
+          b2 <- output$beta1[, v]+ output$b1[i,v,]
 
           circest.rand.num[i,,] <- as.matrix(circ_coef(a1, a2, b1, b2))[,1:3]
 
         }
 
-      }else if(all(!colnames(output$B.II) == v)){
+      }else if(all(!colnames(output$b2) == v)){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
-          b1 <- output$Beta.I[, v]+ output$B.I[i,v,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
+          b1 <- output$beta1[, v]+ output$b1[i,v,]
           b2 <- rep(0, output$its)
 
           circest.rand.num[i,,] <- as.matrix(circ_coef(a1, a2, b1, b2))[,1:3]
@@ -1587,10 +1599,10 @@ summe <- function(output, mm){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
-          b1 <- output$Beta.I[, v]+ output$B.I[i,v,]
-          b2 <- output$Beta.I[, v]+ output$B.I[i,v,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
+          b1 <- output$beta1[, v]+ output$b1[i,v,]
+          b2 <- output$beta1[, v]+ output$b1[i,v,]
 
           circest.rand.num[i,,] <- as.matrix(circ_coef(a1, a2, b1, b2))[,1:3]
 
@@ -1621,14 +1633,14 @@ summe <- function(output, mm){
 
     for(c in var.cat.rand){
 
-      if(all(!colnames(output$B.I) == c)){
+      if(all(!colnames(output$b1) == c)){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
           b1 <- rep(0, output$its)
-          b2 <- output$Beta.II[, c]+ output$B.II[i,c,]
+          b2 <- output$beta2[, c]+ output$b2[i,c,]
 
           baseline <- atan2(a2, a1)
           dummy <- atan2(a2 + b2, a1 + b1)
@@ -1641,13 +1653,13 @@ summe <- function(output, mm){
 
         }
 
-      }else if(all(!colnames(output$B.II) == c)){
+      }else if(all(!colnames(output$b2) == c)){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
-          b1 <- output$Beta.I[, c]+ output$B.I[i,c,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
+          b1 <- output$beta1[, c]+ output$b1[i,c,]
           b2 <- rep(0, output$its)
 
           baseline <- atan2(a2, a1)
@@ -1666,10 +1678,10 @@ summe <- function(output, mm){
 
         for(i in 1:mm$N){
 
-          a1 <- output$Beta.I[,"(Intercept)"] + output$B.I[i,1,]
-          a2 <- output$Beta.II[, "(Intercept)"]+ output$B.II[i,1,]
-          b1 <- output$Beta.I[, c]+ output$B.I[i,c,]
-          b2 <- output$Beta.I[, c]+ output$B.I[i,c,]
+          a1 <- output$beta1[,"(Intercept)"] + output$b1[i,1,]
+          a2 <- output$beta2[, "(Intercept)"]+ output$b2[i,1,]
+          b1 <- output$beta1[, c]+ output$b1[i,c,]
+          b2 <- output$beta1[, c]+ output$b1[i,c,]
 
           baseline <- atan2(a2, a1)
           dummy <- atan2(a2 + b2, a1 + b1)
@@ -1686,10 +1698,10 @@ summe <- function(output, mm){
 
       varrand.cat[,c] <- apply(circest.rand.cat[,,"circ.diff"], 2, rho_circ)
 
-      circ.res.varrand[paste("RS", c), 1] <- mean(varrand.cat)
-      circ.res.varrand[paste("RS", c), 2] <- mode_est(varrand.cat)
-      circ.res.varrand[paste("RS", c), 3] <- sd(varrand.cat)
-      circ.res.varrand[paste("RS", c), 4:5] <- hpd_est(varrand.cat)
+      circ.res.varrand[paste("RS", c), 1] <- mean(1-varrand.cat)
+      circ.res.varrand[paste("RS", c), 2] <- mode_est(1-varrand.cat)
+      circ.res.varrand[paste("RS", c), 3] <- sd(1-varrand.cat)
+      circ.res.varrand[paste("RS", c), 4:5] <- hpd_est(1-varrand.cat)
 
 
     }
@@ -1712,21 +1724,21 @@ summe <- function(output, mm){
 
   if(output$p1 == 1){
 
-    BI <- mode_est(output$Beta.I)
+    BI <- mode_est(output$beta1)
 
   }else{
 
-    BI <- apply(output$Beta.I, 2, mode_est)
+    BI <- apply(output$beta1, 2, mode_est)
 
   }
 
   if(output$p2 == 1){
 
-    BII <- mode_est(output$Beta.II)
+    BII <- mode_est(output$beta2)
 
   }else{
 
-    BII <- apply(output$Beta.II, 2, mode_est)
+    BII <- apply(output$beta2, 2, mode_est)
   }
 
   if(output$q1 > 1  & output$q2 > 1){
@@ -1741,8 +1753,8 @@ summe <- function(output, mm){
       for(j in 1:mm$no.Meas[i]){
 
         t.aux     <- mm$theta[[i]][j]
-        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(output$B.I[i,,], 1, mode_est)%*%mm$ZI[[i]][j,])
-        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(output$B.II[i,,], 1, mode_est)%*%mm$ZII[[i]][j,])
+        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(output$b1[i,,], 1, mode_est)%*%mm$ZI[[i]][j,])
+        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(output$b2[i,,], 1, mode_est)%*%mm$ZII[[i]][j,])
         bb        <- Dbd(t.aux, mu.ij.I, mu.ij.II)
         norm2.M   <- mu.ij.I^2 + mu.ij.II^2
         c <- (1 + ((bb*pnorm(bb))/dnorm(bb)))
@@ -1775,8 +1787,8 @@ summe <- function(output, mm){
       for(j in 1:mm$no.Meas[i]){
 
         t.aux     <- mm$theta[[i]][j]
-        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(output$B.I[i,,], 1, mode_est)%*%mm$ZI[[i]][j,])
-        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(t(as.matrix(output$B.II[i,,])), 1, mode_est)%*%mm$ZII[[i]][j,])
+        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(output$b1[i,,], 1, mode_est)%*%mm$ZI[[i]][j,])
+        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(t(as.matrix(output$b2[i,,])), 1, mode_est)%*%mm$ZII[[i]][j,])
         bb        <- Dbd(t.aux, mu.ij.I, mu.ij.II)
         norm2.M   <- mu.ij.I^2 + mu.ij.II^2
         c <- (1 + ((bb*pnorm(bb))/dnorm(bb)))
@@ -1810,8 +1822,8 @@ summe <- function(output, mm){
       for(j in 1:mm$no.Meas[i]){
 
         t.aux     <- mm$theta[[i]][j]
-        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(t(as.matrix(output$B.I[i,,])), 1, mode_est)%*%mm$ZI[[i]][j,])
-        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(output$B.II[i,,], 1, mode_est)%*%mm$ZII[[i]][j,])
+        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(t(as.matrix(output$b1[i,,])), 1, mode_est)%*%mm$ZI[[i]][j,])
+        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(output$b2[i,,], 1, mode_est)%*%mm$ZII[[i]][j,])
         bb        <- Dbd(t.aux, mu.ij.I, mu.ij.II)
         norm2.M   <- mu.ij.I^2 + mu.ij.II^2
         c <- (1 + ((bb*pnorm(bb))/dnorm(bb)))
@@ -1844,8 +1856,8 @@ summe <- function(output, mm){
       for(j in 1:mm$no.Meas[i]){
 
         t.aux     <- mm$theta[[i]][j]
-        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(t(as.matrix(output$B.I[i,,])), 1, mode_est)%*%mm$ZI[[i]][j,])
-        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(t(as.matrix(output$B.II[i,,])), 1, mode_est)%*%mm$ZII[[i]][j,])
+        mu.ij.I   <- c(BI%*%mm$XI[[i]][j,] + apply(t(as.matrix(output$b1[i,,])), 1, mode_est)%*%mm$ZI[[i]][j,])
+        mu.ij.II  <- c(BII%*%mm$XII[[i]][j,] + apply(t(as.matrix(output$b2[i,,])), 1, mode_est)%*%mm$ZII[[i]][j,])
         bb        <- Dbd(t.aux, mu.ij.I, mu.ij.II)
         norm2.M   <- mu.ij.I^2 + mu.ij.II^2
         c <- (1 + ((bb*pnorm(bb))/dnorm(bb)))
@@ -1905,10 +1917,10 @@ summe <- function(output, mm){
        varrand.cat = varrand.cat,
        circ.varrand.ri = circ.varrand.ri,
        circ.res = circ.res,
-       circ.res.cat = circ.res.cat,
-       circ.res.means = circ.res.means,
+       circ.res.cat = circ.res.cat ,
+       circ.res.means = circ.res.means ,
        a.x = a.x, a.c = a.c, b.c = b.c,
-       SAM = SAM, AS = AS, SSDO = SSDO, circ.diff = circ.diff,
+       SAM = SAM, AS = AS, SSDO = SSDO, circ.diff = circ.diff ,
        lin.res.varrand.I = lin.res.varrand.I,
        lin.res.varrand.II = lin.res.varrand.II,
        circ.res.varrand = circ.res.varrand)
