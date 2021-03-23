@@ -227,11 +227,11 @@ head(fit$a.x)
 ### How to obtain random effect variances and individual random effects in circular mixed-effects models:
 
 ```{r, echo = FALSE, results = FALSE}
-fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps, its = 100)
+fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps)
 ```
 
 ```{r, eval = FALSE}
-fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps, its = 100)
+fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps)
 ```
 
 In circular mixed-effects models the following parameters contain the individual random effects and random effect variances:
@@ -278,24 +278,25 @@ implemented in `bpnreg` and will need to be computed explicitly using the raw
 posterior samples. E.g. the effect of the trial type on the circular variance can be computed as follows:
 
 ```{r}
+
 a1 <- fitme$beta1[,"(Intercept)"]
 a2 <- fitme$beta2[,"(Intercept)"]
 b1 <- fitme$beta1[,"Trial.type1"]
 b2 <- fitme$beta2[,"Trial.type1"]
 
 zeta_standard <- sqrt((a1)^2 + (a2 + b2)^2)^2/4
-var_standard  <- 1 - sqrt((pi * zeta_standard)/2) * exp(-zeta_standard) * 
+var_standard  <- 1 - sqrt((pi * zeta_standard)/2) * exp(-zeta_standard) *
                         (besselI(zeta_standard, 0) + besselI(zeta_standard, 1))
 
 zeta_probe <- sqrt((a1 + b1)^2 + (a2 + b2)^2)^2/4
-var_probe  <- 1 - sqrt((pi * zeta_probe)/2) * exp(-zeta_probe) * 
+var_probe  <- 1 - sqrt((pi * zeta_probe)/2) * exp(-zeta_probe) *
                         (besselI(zeta_probe, 0) + besselI(zeta_probe, 1))
 
-standard <- c(mode_est(var_standard), 
+standard <- c(mode_est(var_standard),
               mean(var_standard),
               sd(var_standard),
               hpd_est(var_standard))
-probe <- c(mode_est(var_probe), 
+probe <- c(mode_est(var_probe),
            mean(var_probe),
            sd(var_probe),
            hpd_est(var_probe))
@@ -317,9 +318,9 @@ From these results we conclude that the circular variance for the standard and p
 
 ## References
 
-- Cremers, J. , Mulder, K.T. \& Klugkist, I. (2018). Circular Interpretation of Regression Coefficients. *British Journal of Mathematical and Statistical Psychology, 71*(1), 75-95. [[Full-text]](https://doi.org/10.1111/bmsp.12108)
+- Cremers, J. , Mulder, K.T. \& Klugkist, I. (2018). Circular Interpretation of Regression Coefficients. *British Journal of Mathematical and Statistical Psychology, 71*(1), 75-95.
 
-- Cremers, J., Pennings, H.J.M., Mainhard, T. \& Klugkist, I. (2021). Circular Modelling of Circumplex Measurements for Interpersonal Behavior. *Assessment, 28*(2), 585-600. [[Full-text]](https://doi.org/10.1177/1073191119858407)
+- Cremers, J., Pennings, H.J.M., Mainhard, T. \& Klugkist, I. (2021). Circular Modelling of Circumplex Measurements for Interpersonal Behavior. *Assessment, 28*(2), 585-600.
 
 - Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A. \& Rubin, D. (2014). Bayesian Data Analysis, 3rd ed.
 

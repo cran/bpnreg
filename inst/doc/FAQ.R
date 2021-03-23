@@ -64,10 +64,10 @@ head(fit$beta1)
 head(fit$a.x)
 
 ## ---- echo = FALSE, results = FALSE-------------------------------------------
-fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps, its = 100)
+fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps)
 
 ## ---- eval = FALSE------------------------------------------------------------
-#  fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps, its = 100)
+#  fitme <- bpnme(Error.rad ~ Maze + Trial.type + (1|Subject), Maps)
 
 ## -----------------------------------------------------------------------------
 mean(fitme$cRI)
@@ -76,24 +76,25 @@ mean(fitme$cRI)
 apply(fitme$circular.ri, 1, mean_circ)*180/pi
 
 ## -----------------------------------------------------------------------------
+
 a1 <- fitme$beta1[,"(Intercept)"]
 a2 <- fitme$beta2[,"(Intercept)"]
 b1 <- fitme$beta1[,"Trial.type1"]
 b2 <- fitme$beta2[,"Trial.type1"]
 
 zeta_standard <- sqrt((a1)^2 + (a2 + b2)^2)^2/4
-var_standard  <- 1 - sqrt((pi * zeta_standard)/2) * exp(-zeta_standard) * 
+var_standard  <- 1 - sqrt((pi * zeta_standard)/2) * exp(-zeta_standard) *
                         (besselI(zeta_standard, 0) + besselI(zeta_standard, 1))
 
 zeta_probe <- sqrt((a1 + b1)^2 + (a2 + b2)^2)^2/4
-var_probe  <- 1 - sqrt((pi * zeta_probe)/2) * exp(-zeta_probe) * 
+var_probe  <- 1 - sqrt((pi * zeta_probe)/2) * exp(-zeta_probe) *
                         (besselI(zeta_probe, 0) + besselI(zeta_probe, 1))
 
-standard <- c(mode_est(var_standard), 
+standard <- c(mode_est(var_standard),
               mean(var_standard),
               sd(var_standard),
               hpd_est(var_standard))
-probe <- c(mode_est(var_probe), 
+probe <- c(mode_est(var_probe),
            mean(var_probe),
            sd(var_probe),
            hpd_est(var_probe))
