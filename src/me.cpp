@@ -72,19 +72,23 @@ arma::mat betaBlock(arma::mat Omega, Rcpp::List R, Rcpp::List theta, Rcpp::List 
 
   //Compute the mean of the distribution for the coefficients vector.
 
+  sXtVY = arma::sum(sXtVY_tmp,1);
+
   if(p > 1){
-    sXtVY = arma::sum(sXtVY_tmp, 1);
+
+    arma::colvec beta_mu = beta_var*sXtVY;
+    //Sample the coefficients vector
+    arma::mat beta = arma::mvnrnd(beta_mu, beta_var);
+    return beta;
+
   }else{
-    sXtVY = arma::sum(sXtVY_tmp);
+
+    arma::mat beta_mu = beta_var*sXtVY;
+    //Sample the coefficients vector
+    arma::mat beta = arma::randn(1)*sqrt(beta_var)+beta_mu;
+    return beta;
+
   }
-
-  arma::colvec beta_mu = beta_var*sXtVY;
-
-
-  //Sample the coefficients vector
-  arma::mat beta = arma::mvnrnd(beta_mu, beta_var);
-
-  return beta;
 
 }
 
@@ -169,8 +173,10 @@ arma::mat omega_samp(arma::mat b, arma::mat B, int v, int q, int N){
 //' @param beta2 estimated fixed effect coefficients of the second component
 //' @param b1 estimated random effect coefficients of the first component
 //' @param b2 estimated random effect coefficients of the second component
-//' @param pred An empty list for likelihood computation.
 //' @param N sample size at second level
+//' @param pred An empty list for likelihood computation.
+//' @param iteration iteration number at which likelihood is computed
+
 //'
 // [[Rcpp::export]]
 
@@ -178,9 +184,11 @@ Rcpp::List lik_me(Rcpp::List theta_cos, Rcpp::List theta_sin,
                   Rcpp::List X1, Rcpp::List X2,
                   Rcpp::List Z1, Rcpp::List Z2,
                   arma::mat beta1, arma::mat beta2, arma::mat b1, arma::mat b2,
-                   int N, Rcpp::List pred){
+                  int N, Rcpp::List pred, int iteration){
 
   for (int i = 0; i < N; ++i){
+
+    arma::mat mtmp = pred[i];
 
     arma::mat Z1_tmp = Z1[i];
     arma::mat X1_tmp = X1[i];
@@ -208,7 +216,8 @@ Rcpp::List lik_me(Rcpp::List theta_cos, Rcpp::List theta_sin,
 
     }
 
-    pred[i] = L.t();
+    mtmp.row(iteration) = L.t();
+    pred[i] = mtmp;
 
   }
 
@@ -340,7 +349,7 @@ Rcpp::List pnme(List theta_cos, List theta_sin,
 
       pred = lik_me(theta_cos, theta_sin, X1, X2, Z1, Z2,
                     beta1_tmp, beta2_tmp, b1_tmp, b2_tmp,
-                    N, pred);
+                    N, pred, ii-1);
 
     }
 

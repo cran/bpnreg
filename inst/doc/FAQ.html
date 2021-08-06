@@ -197,13 +197,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">bpnr</span>(Phaserad <span class="sc">~</span> Cond <span class="sc">+</span> AvAmp, <span class="at">data =</span> Motor, <span class="at">seed =</span> <span class="dv">101</span>)</span></code></pre></div>
 <p>To obtain circular coefficients in degrees for the continuous variable <code>AvAmp</code> in the circular regression model above are obtained as:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef_circ</span>(fit, <span class="at">type =</span> <span class="st">&quot;continuous&quot;</span>, <span class="at">units =</span> <span class="st">&quot;degrees&quot;</span>)</span></code></pre></div>
-<pre><code>#&gt;                  mean        mode         sd      LB HPD     UB HPD
-#&gt; AvAmp ax   81.6068095  74.1076555 115.262007 -154.134263 276.104930
-#&gt; AvAmp ac   37.2973696 -25.0969144  72.470701  -45.416389 145.443905
-#&gt; AvAmp bc   -0.7818724   0.6110678  11.091685   -2.604172   1.399250
-#&gt; AvAmp AS   -0.2287556  -0.3563137  26.292848   -6.737327   9.425920
-#&gt; AvAmp SAM  -0.7075764  -0.3444048  22.473728  -12.530243   8.356794
-#&gt; AvAmp SSDO  0.2523587   1.7567794   1.963975   -2.636442   2.857969</code></pre>
+<pre><code>#&gt;                   mean          mode         sd        LB HPD       UB HPD
+#&gt; AvAmp ax   81.60680954  74.107655480 115.262007 -1.541343e+02 276.10492950
+#&gt; AvAmp ac   37.29736965 -25.096914448  72.470701 -4.541639e+01 145.44390534
+#&gt; AvAmp bc   -1.67909812  -0.612950343 152.053102 -2.614163e+01  17.27149184
+#&gt; AvAmp AS    0.08110837   0.001181389   1.532724 -2.631771e-01   0.31289926
+#&gt; AvAmp SAM   0.05039833   0.005540038   1.478331  3.711198e-05   0.06059786
+#&gt; AvAmp SSDO  0.25235872   1.756779390   1.963975 -2.636442e+00   2.85796861</code></pre>
 <p>The output returns summary statistics for the posterior distributions for several parameters of the circular regression line of the <code>AvAmp</code> variable.</p>
 <p>These parameters are interpreted as follows:</p>
 <ul>

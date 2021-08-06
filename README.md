@@ -30,7 +30,7 @@ devtools::install_github("joliencremers/bpnreg")
 To cite the package ‘bpnreg’ in publications use:
 
 Jolien Cremers (2020). bpnreg: Bayesian Projected Normal Regression
-Models for Circular Data. R package version 1.0.3.
+Models for Circular Data. R package version 2.0.1.
 <https://CRAN.R-project.org/package=bpnreg>
 
 ## Example
@@ -40,79 +40,178 @@ normal regression model:
 
 ``` r
 library(bpnreg)
-#> Warning: package 'bpnreg' was built under R version 4.0.2
-bpnr(Phaserad ~ Cond + AvAmp, Motor)
+bpnr(Phaserad ~ Cond + AvAmp, Motor, its = 100)
+#> Iteration:1
+#> Iteration:2
+#> Iteration:3
+#> Iteration:4
+#> Iteration:5
+#> Iteration:6
+#> Iteration:7
+#> Iteration:8
+#> Iteration:9
+#> Iteration:10
+#> Iteration:11
+#> Iteration:12
+#> Iteration:13
+#> Iteration:14
+#> Iteration:15
+#> Iteration:16
+#> Iteration:17
+#> Iteration:18
+#> Iteration:19
+#> Iteration:20
+#> Iteration:21
+#> Iteration:22
+#> Iteration:23
+#> Iteration:24
+#> Iteration:25
+#> Iteration:26
+#> Iteration:27
+#> Iteration:28
+#> Iteration:29
+#> Iteration:30
+#> Iteration:31
+#> Iteration:32
+#> Iteration:33
+#> Iteration:34
+#> Iteration:35
+#> Iteration:36
+#> Iteration:37
+#> Iteration:38
+#> Iteration:39
+#> Iteration:40
+#> Iteration:41
+#> Iteration:42
+#> Iteration:43
+#> Iteration:44
+#> Iteration:45
+#> Iteration:46
+#> Iteration:47
+#> Iteration:48
+#> Iteration:49
+#> Iteration:50
+#> Iteration:51
+#> Iteration:52
+#> Iteration:53
+#> Iteration:54
+#> Iteration:55
+#> Iteration:56
+#> Iteration:57
+#> Iteration:58
+#> Iteration:59
+#> Iteration:60
+#> Iteration:61
+#> Iteration:62
+#> Iteration:63
+#> Iteration:64
+#> Iteration:65
+#> Iteration:66
+#> Iteration:67
+#> Iteration:68
+#> Iteration:69
+#> Iteration:70
+#> Iteration:71
+#> Iteration:72
+#> Iteration:73
+#> Iteration:74
+#> Iteration:75
+#> Iteration:76
+#> Iteration:77
+#> Iteration:78
+#> Iteration:79
+#> Iteration:80
+#> Iteration:81
+#> Iteration:82
+#> Iteration:83
+#> Iteration:84
+#> Iteration:85
+#> Iteration:86
+#> Iteration:87
+#> Iteration:88
+#> Iteration:89
+#> Iteration:90
+#> Iteration:91
+#> Iteration:92
+#> Iteration:93
+#> Iteration:94
+#> Iteration:95
+#> Iteration:96
+#> Iteration:97
+#> Iteration:98
+#> Iteration:99
+#> Iteration:100
 #> Projected Normal Regression 
 #> 
 #> Model 
 #> 
 #> Call: 
-#> bpnr(pred.I = Phaserad ~ Cond + AvAmp, data = Motor)
+#> bpnr(pred.I = Phaserad ~ Cond + AvAmp, data = Motor, its = 100)
 #> 
 #> MCMC: 
-#> iterations = 1000
+#> iterations = 100
 #> burn-in = 1
-#> lag = 1
+#> lag = 
 #> 
 #> Model Fit: 
 #>         Statistic Parameters
-#> lppd    -57.02276   8.000000
-#> DIC     129.91767   7.933199
-#> DIC.alt 129.16896   7.558843
-#> WAIC    129.92344   7.938965
-#> WAIC2   131.73043   8.842460
+#> lppd     -57.1688   8.000000
+#> DIC      127.9570   6.915886
+#> DIC.alt  124.5182   5.196498
+#> WAIC1    127.7447   6.703544
+#> WAIC2    129.1263   7.394339
 #> 
 #> 
 #> Linear Coefficients 
 #> 
 #> Component I: 
-#>                     mean        mode         sd      LB HPD     UB HPD
-#> (Intercept)   1.35903284  1.31054078 0.45916211  0.51176151 2.26408763
-#> Condsemi.imp -0.51431167 -0.38356351 0.65112849 -1.76181870 0.77224926
-#> Condimp      -0.63880458 -0.74159122 0.66793394 -1.86754185 0.71109682
-#> AvAmp        -0.01055016 -0.01139835 0.01218486 -0.03623167 0.01170322
+#>                     mean        mode          sd      LB HPD      UB HPD
+#> (Intercept)   1.35790309  1.53919307 0.391924091  0.65691407 2.057654675
+#> Condsemi.imp -0.52983534 -0.41612729 0.530374398 -1.50572773 0.426828296
+#> Condimp      -0.68404666 -0.76754183 0.580782922 -1.65486565 0.289774837
+#> AvAmp        -0.01179946 -0.01223479 0.009548015 -0.03090843 0.005276706
 #> 
 #> Component II: 
-#>                     mean        mode         sd      LB HPD      UB HPD
-#> (Intercept)   1.42272991  1.27049889 0.42518913  0.59913060  2.23085396
-#> Condsemi.imp -1.17555420 -1.07575082 0.58198521 -2.31181884 -0.04772718
-#> Condimp      -0.97477439 -1.16513093 0.61236345 -2.16960668  0.15627423
-#> AvAmp        -0.01120924 -0.01173855 0.01088949 -0.03060563  0.01049163
+#>                     mean         mode          sd     LB HPD     UB HPD
+#> (Intercept)   1.42614025  1.079492806 0.416421481  0.6984332  2.2183433
+#> Condsemi.imp -1.15627523 -1.063931210 0.538037522 -2.2837229 -0.2885647
+#> Condimp      -1.01689511 -1.125072141 0.586648246 -1.9668072  0.1881823
+#> AvAmp        -0.01046688 -0.009172757 0.009881872 -0.0306683  0.0055209
 #> 
 #> 
 #> Circular Coefficients 
 #> 
 #> Continuous variables: 
-#>    mean ax    mode ax      sd ax      LB ax      UB ax 
-#>   81.92119   66.77753  106.93783 -126.42475  287.94441 
+#>   mean ax   mode ax     sd ax     LB ax     UB ax 
+#> 102.35258  73.34450  86.63490  24.19556 367.47488 
 #> 
 #>    mean ac    mode ac      sd ac      LB ac      UB ac 
-#>  0.9607303  2.1672257  1.2672149 -0.8206028  2.4573048 
+#>  0.9268703  1.8524139  1.3298789 -0.7441615  2.4409921 
 #> 
-#>      mean bc      mode bc        sd bc        LB bc        UB bc 
-#> -0.001954087  0.011505774  0.030594802 -0.038497492  0.025762454 
+#>     mean bc     mode bc       sd bc       LB bc       UB bc 
+#> -0.16793096  0.02375924  1.29982126 -0.28692522  0.45828966 
 #> 
-#>      mean AS      mode AS        sd AS        LB AS        UB AS 
-#> -0.017532826 -0.007563145  0.309320733 -0.124976392  0.130372158 
+#>       mean AS       mode AS         sd AS         LB AS         UB AS 
+#>  4.380087e-04  3.366778e-05  1.555164e-03 -9.855660e-04  5.396278e-03 
 #> 
-#>    mean SAM    mode SAM      sd SAM      LB SAM      UB SAM 
-#> -0.03039514 -0.00759563  0.38996867 -0.25949211  0.22435792 
+#>     mean SAM     mode SAM       sd SAM       LB SAM       UB SAM 
+#> 2.009564e-04 3.131051e-05 3.626970e-04 7.397841e-06 6.529131e-04 
 #> 
-#>   mean SSDO   mode SSDO     sd SSDO     LB SSSO     UB SSDO 
-#> -0.07185253 -2.05247080  2.04637805 -2.81847543  2.77529945 
+#>  mean SSDO  mode SSDO    sd SSDO    LB SSSO    UB SSDO 
+#> -0.1083323  1.7910062  2.0399111 -2.8212582  2.5798523 
 #> 
 #> Categorical variables: 
 #> 
 #> Means: 
-#>                           mean       mode        sd         LB       UB
-#> (Intercept)          0.8133872  0.7973453 0.1984700  0.4171888 1.188380
-#> Condsemi.imp         0.2843519  0.2298160 0.4338476 -0.5892295 1.117094
-#> Condimp              0.5580093  0.5334042 0.4576417 -0.4067679 1.387852
-#> Condsemi.impCondimp -1.2346729 -1.0865211 1.0882791  3.0123533 1.194460
+#>                           mean       mode        sd         LB        UB
+#> (Intercept)          0.8067426  0.8972646 0.1975172  0.4065758 1.1637551
+#> Condsemi.imp         0.2985994  0.1569926 0.3678727 -0.4165081 0.9970036
+#> Condimp              0.5623415  0.7778834 0.4861090 -0.4705304 1.3894279
+#> Condsemi.impCondimp -1.4038001 -0.9012296 1.1367688  2.5048970 0.8284608
 #> 
 #> Differences: 
-#>                          mean      mode        sd         LB       UB
-#> Condsemi.imp        0.5327909 0.5016397 0.5005797 -0.5136915 1.425091
-#> Condimp             0.2591943 0.0723281 0.5398564 -0.7832167 1.294051
-#> Condsemi.impCondimp 2.1411008 2.4533343 1.0282856 -0.4460970 3.959229
+#>                          mean       mode        sd         LB       UB
+#> Condsemi.imp        0.5095912  0.3943821 0.4515864 -0.3455296 1.390026
+#> Condimp             0.2472478 -0.1522208 0.5688090 -0.9860141 1.138581
+#> Condsemi.impCondimp 2.3183579  2.0576422 1.0578694 -0.1311784 4.307274
 ```
